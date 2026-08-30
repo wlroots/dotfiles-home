@@ -43,7 +43,7 @@ tooltip label {
 }
 
 #workspaces button.urgent {
-    background-color: red;
+    background-color: #ee0000;
     color: @gray4;
 }
 
@@ -61,7 +61,7 @@ tooltip label {
 /* Mode Indicator (e.g. resize mode) */
 #mode {
     padding: 0 6px 0 4px;
-    background-color: red;
+    background-color: #ee0000;
     color: @gray4; 
 }
 
