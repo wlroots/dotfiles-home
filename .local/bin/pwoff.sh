@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-op=$(echo -e "Lock\nLogout\nReboot\nPoweroff" | rofi -dmenu -i -p "Power")
+op=$(echo -e "Lock\nLogout\nReboot\nPoweroff" | fuzzel -d --prompt="Power> " -l 4 -w 50)
 
 case "$op" in
     "Lock")      swaylock ;;

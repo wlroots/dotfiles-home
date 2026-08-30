@@ -9,9 +9,11 @@ include ~/.config/sway/config.d/$(cat /etc/hostname).conf
 ### Some variables
 # TODO: transfer bemenu options from sway config to sway-run script
 # Nvm, switched to rofi anyways XD
+# And switched again to fuzzel
 set $term alacritty
 #set $menu j4-dmenu-desktop -d "bemenu -i -c -W 0.3 -l 10 -p 'Run:' --fn 'monospace 10' --tb '#222222' --tf '#bbbbbb' --fb '#222222' --ff '#bbbbbb' --nb '#222222' --nf '#bbbbbb' --hb '#005577' --hf '#bbbbbb' --sb '#005577' --sf '#ffffff'"
-set $menu rofi -show drun
+#set $menu rofi -show drun
+set $menu fuzzel
 
 # Border options
 default_border pixel 2
