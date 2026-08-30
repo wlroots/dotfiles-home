@@ -1,0 +1,5 @@
+[general]
+import = ["~/.config/alacritty/themes/campbell.toml"]
+[font]
+normal = { family = "Jetbrains Mono", style = "Regular" }
+size = 10

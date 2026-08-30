@@ -1,0 +1,178 @@
+# Disable built-in xwayland -- because i use xwayland-satellite instead, DISPLAY variable is exported before start by /usr/local/bin/sway-run
+xwayland disable
+exec xwayland-satellite :12
+
+# Include device-specific confings, because some devices requires scaling, or some quirks included in file
+# NOTE: for some reason, i dont have "hostname" on my system, so i use this quirk with cat
+include ~/.config/sway/config.d/$(cat /etc/hostname).conf
+
+### Some variables
+# TODO: transfer bemenu options from sway config to sway-run script
+# Nvm, switched to rofi anyways XD
+set $term alacritty
+#set $menu j4-dmenu-desktop -d "bemenu -i -c -W 0.3 -l 10 -p 'Run:' --fn 'monospace 10' --tb '#222222' --tf '#bbbbbb' --fb '#222222' --ff '#bbbbbb' --nb '#222222' --nf '#bbbbbb' --hb '#005577' --hf '#bbbbbb' --sb '#005577' --sf '#ffffff'"
+set $menu rofi -show drun
+
+# Border options
+default_border pixel 2
+default_floating_border pixel 2
+smart_borders on
+
+# Gaps options
+gaps inner 10
+smart_gaps on
+
+### Autostart
+exec /usr/lib/mate-polkit/polkit-mate-authentication-agent-1
+exec nm-applet
+exec sway-audio-idle-inhibit
+exec sway-autostart # SwaySettings ftw
+exec swayosd-server # OSD server
+
+exec swayidle -w \
+   timeout 300 'swaylock -f -c 000000' \
+   timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+   before-sleep 'swaylock -f -c 000000'
+
+
+### Input options
+# Touchpad
+input type:touchpad {
+   dwt enabled
+   tap enabled
+   natural_scroll enabled
+   middle_emulation enabled
+   accel_profile adaptive
+}
+
+# Keyboard
+input type:keyboard {
+   xkb_layout "us,ru"
+   xkb_options "grp:alt_shift_toggle,grp:win_space_toggle"
+}
+
+### Output options
+# Wallpaper
+output * bg $HOME/.wallpapers/Furry/city.jpg fill
+
+### Keybindings
+floating_modifier Mod4 normal
+
+# Main bindings
+bindsym --to-code {
+   Mod4+Return exec $term
+   Mod4+Shift+q kill
+   Mod4+d exec $menu
+   Mod4+Shift+c reload
+   Mod4+Shift+e exec $HOME/.local/bin/pwoff.sh
+}
+
+# Navigation bindings
+bindsym {
+   Mod4+Left focus left
+   Mod4+Down focus down
+   Mod4+Up focus up
+   Mod4+Right focus right
+
+   Mod4+Shift+Left move left
+   Mod4+Shift+Down move down
+   Mod4+Shift+Up move up
+   Mod4+Shift+Right move right
+}
+
+# Workspace bindings
+bindsym {
+   Mod4+1 workspace number 1
+   Mod4+2 workspace number 2
+   Mod4+3 workspace number 3
+   Mod4+4 workspace number 4
+   Mod4+5 workspace number 5
+   Mod4+6 workspace number 6
+   Mod4+7 workspace number 7
+   Mod4+8 workspace number 8
+   Mod4+9 workspace number 9
+   Mod4+0 workspace number 10
+
+   Mod4+Shift+1 move container to workspace number 1
+   Mod4+Shift+2 move container to workspace number 2
+   Mod4+Shift+3 move container to workspace number 3
+   Mod4+Shift+4 move container to workspace number 4
+   Mod4+Shift+5 move container to workspace number 5
+   Mod4+Shift+6 move container to workspace number 6
+   Mod4+Shift+7 move container to workspace number 7
+   Mod4+Shift+8 move container to workspace number 8
+   Mod4+Shift+9 move container to workspace number 9
+   Mod4+Shift+0 move container to workspace number 10
+}
+
+# Window managing bindings
+bindsym --to-code {
+   Mod4+b splith
+   Mod4+v splitv
+
+   Mod4+s layout stacking
+   Mod4+w layout tabbed
+   Mod4+e layout toggle split
+
+   Mod4+f fullscreen
+
+   Mod4+a focus parent
+}
+
+bindsym {
+   Mod4+Shift+space floating toggle
+   Mod4+space focus mode_toggle
+}
+
+
+# Scratchpad bindings
+bindsym {
+   Mod4+Shift+minus move scratchpad
+   Mod4+minus scratchpad show
+}
+
+# Resizing
+mode "resize" {
+   bindsym {
+      Left resize grow width 10px
+      Down resize shrink height 10px
+      Up resize grow height 10px
+      Right resize shrink width 10px
+   }
+
+   bindsym Return mode "default"
+   bindsym Escape mode "default"
+}
+
+bindsym --to-code Mod4+r mode "resize"
+
+# Media bindings
+bindsym --locked {
+   XF86AudioMute exec swayosd-client --output-volume mute-toggle
+   XF86AudioLowerVolume exec swayosd-client --output-volume lower
+   XF86AudioRaiseVolume exec swayosd-client --output-volume raise
+   XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+
+   XF86AudioPlay exec playerctl play-pause
+   XF86AudioPause exec playerctl play-pause
+   XF86AudioPrev exec playerctl previous
+   XF86AudioNext exec playerctl next
+   XF86AudioStop exec playerctl stop
+
+   XF86MonBrightnessDown exec swayosd-client --brightness lower
+   XF86MonBrightnessUp exec swayosd-client --brightness raise
+}
+
+# Screenshot bindings
+# TODO: make non PrintScreen bindings for PCs without PrintScreen (e.g. Macs)
+bindsym {
+   Print exec grimshot --notify savecopy screen ~/Pictures/Screenshot/$(date +'%Y-%m-%d-%H%M%S.png')
+   Ctrl+Print exec grimshot --notify savecopy anything ~/Pictures/Screenshot/$(date +'%Y-%m-%d-%H%M%S.png')
+   Mod1+print exec grimshot --notify savecopy active ~/Pictures/Screenshot/$(date +'%Y-%m-%d-%H%M%S.png')
+}
+
+## Launch waybar
+bar swaybar_command waybar
+
+## Import distrospecific options
+include /etc/sway/config.d/*

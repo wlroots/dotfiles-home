@@ -1,0 +1,102 @@
+/* Color Palette */
+@define-color gray1 #222222;
+@define-color gray2 #444444;
+@define-color gray3 #bbbbbb;
+@define-color gray4 #eeeeee;
+@define-color cyan  #005577;
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Monospace", "DejaVu Sans Mono", monospace;
+    font-size: 12px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: @gray1;
+    color: @gray3;
+}
+
+/* Tooltip (Calendar) */
+tooltip {
+    background: @gray1;
+    border: 1px solid @cyan;
+}
+tooltip label {
+    color: @gray4;
+}
+
+/* Workspaces (Left) */
+#workspaces button {
+    padding: 0 4px;
+    background-color: @gray1;
+    color: @gray3;
+    /* border-right: 1px solid @gray2; */
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background-color: @cyan;
+    color: @gray4;
+}
+
+#workspaces button.urgent {
+    background-color: red;
+    color: @gray4;
+}
+
+/* #workspaces button:hover {
+    background-color: @gray2;
+    color: @gray4;
+} */
+
+/* Window Title (Center) */
+#window {
+    color: @gray4;
+    padding: 0 10px;
+}
+
+/* Mode Indicator (e.g. resize mode) */
+#mode {
+    padding: 0 6px 0 4px;
+    background-color: red;
+    color: @gray4; 
+}
+
+/* Right Status Modules & Tray */
+#tray {
+    padding: 0 8px;
+    background-color: @gray1;
+    color: @gray3;
+}
+
+/* Added #language to this block */
+#language,
+#pulseaudio,
+#memory,
+#battery,
+#clock {
+    padding: 0 8px;
+    background-color: @gray1;
+    color: @gray3;
+    border-left: 1px solid @gray2;
+}
+
+/* Battery Alerts */
+#battery.warning {
+    color: #ff9900;
+}
+
+#battery.critical {
+    background-color: red;
+    color: @gray4;
+}
+
+/* Highlighted Clock Block */
+#clock {
+    background-color: @cyan;
+    color: @gray4;
+    border-left: 1px solid @cyan;
+}
