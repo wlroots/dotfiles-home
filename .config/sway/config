@@ -25,6 +25,7 @@ exec nm-applet
 exec sway-audio-idle-inhibit
 exec sway-autostart # SwaySettings ftw
 exec swayosd-server # OSD server
+exec waypaper --restore
 
 exec swayidle -w \
    timeout 300 'swaylock -f -c 000000' \
@@ -50,7 +51,8 @@ input type:keyboard {
 
 ### Output options
 # Wallpaper
-output * bg $HOME/.wallpapers/Furry/city.jpg fill
+# OUTDATED: see waypaper
+#output * bg $HOME/.wallpapers/Furry/city.jpg fill
 
 ### Keybindings
 floating_modifier Mod4 normal
